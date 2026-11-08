@@ -1,26 +1,516 @@
 @import "tailwindcss";
 
+/* ============================================
+   RAJASTHANI HERITAGE PORTFOLIO - DESIGN SYSTEM
+   "Royal Rajasthan – A Modern Digital Heritage"
+   ============================================ */
+
+/* --- CSS Variables --- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Core palette */
+  --parchment: #F7EBDD;
+  --parchment-alt: #F1DFCA;
+  --maroon: #702B32;
+  --maroon-deep: #4B2027;
+  --gold: #BD9458;
+  --gold-light: #D4AF6E;
+  --sage: #66745B;
+  --text-main: #392923;
+  --text-muted: #806D61;
+
+  /* Derived */
+  --background: var(--parchment);
+  --foreground: var(--text-main);
+
+  /* Font families (CSS vars set by next/font) */
+  --font-heading: var(--font-cormorant);
+  --font-body: var(--font-dm-sans);
+  --font-accent: var(--font-yatra);
 }
 
 @theme inline {
+  --color-parchment: #F7EBDD;
+  --color-parchment-alt: #F1DFCA;
+  --color-maroon: #702B32;
+  --color-maroon-deep: #4B2027;
+  --color-gold: #BD9458;
+  --color-gold-light: #D4AF6E;
+  --color-sage: #66745B;
+  --color-text-main: #392923;
+  --color-text-muted: #806D61;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-dm-sans);
+  --font-heading: var(--font-cormorant);
+  --font-accent: var(--font-yatra);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* --- Base Styles --- */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--parchment);
+  color: var(--text-main);
+  font-family: var(--font-body), 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* --- Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --- Selection --- */
+::selection {
+  background-color: rgba(112, 43, 50, 0.2);
+  color: var(--maroon-deep);
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--parchment-alt);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--maroon);
+}
+
+/* --- Heritage Decorative Elements --- */
+
+/* Jharokha arch clip path */
+.arch-frame {
+  clip-path: ellipse(50% 45% at 50% 55%);
+}
+
+/* Ornate arch for hero image */
+.hero-arch {
+  position: relative;
+}
+.hero-arch::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110%;
+  height: 60px;
+  background: 
+    radial-gradient(ellipse 50% 100% at 50% 100%, transparent 97%, var(--parchment) 97.5%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Traditional border pattern */
+.heritage-border {
+  border-image: repeating-linear-gradient(
+    90deg,
+    var(--gold) 0px,
+    var(--gold) 8px,
+    transparent 8px,
+    transparent 16px,
+    var(--maroon) 16px,
+    var(--maroon) 24px,
+    transparent 24px,
+    transparent 32px
+  ) 4;
+}
+
+/* Decorative dot pattern */
+.dot-pattern {
+  background-image: radial-gradient(var(--gold) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Floating decorative motif */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+}
+
+@keyframes floatSlowReverse {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(-2deg); }
+}
+
+.float-slow {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.float-slow-reverse {
+  animation: floatSlowReverse 7s ease-in-out infinite;
+}
+
+/* Fade-up reveal animation */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  opacity: 0;
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+.animate-delay-100 { animation-delay: 0.1s; }
+.animate-delay-200 { animation-delay: 0.2s; }
+.animate-delay-300 { animation-delay: 0.3s; }
+.animate-delay-400 { animation-delay: 0.4s; }
+.animate-delay-500 { animation-delay: 0.5s; }
+.animate-delay-600 { animation-delay: 0.6s; }
+
+/* Section reveal on scroll */
+.reveal-section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal-section.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Heritage floral SVG corners */
+.floral-corner {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* Gold shimmer on text */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.gold-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--gold) 0%,
+    var(--gold-light) 25%,
+    #e8c97a 50%,
+    var(--gold-light) 75%,
+    var(--gold) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Navbar blur glass effect */
+.nav-glass {
+  background: rgba(247, 235, 221, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(189, 148, 88, 0.2);
+}
+
+/* Heritage card style */
+.heritage-card {
+  background: rgba(247, 235, 221, 0.7);
+  border: 1px solid rgba(189, 148, 88, 0.25);
+  border-radius: 12px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.heritage-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--maroon), var(--gold));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.heritage-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(75, 32, 39, 0.12);
+  border-color: rgba(189, 148, 88, 0.5);
+}
+
+.heritage-card:hover::before {
+  opacity: 1;
+}
+
+/* Timeline connector */
+.timeline-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 3px solid var(--parchment);
+  box-shadow: 0 0 0 2px var(--gold);
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.timeline-line {
+  width: 2px;
+  background: linear-gradient(to bottom, var(--gold), rgba(189, 148, 88, 0.3));
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 16px;
+  bottom: 0;
+}
+
+/* Achievement section glow */
+.achievement-glow {
+  position: relative;
+}
+.achievement-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, var(--gold), var(--maroon), var(--gold));
+  border-radius: 16px;
+  opacity: 0.3;
+  z-index: -1;
+  filter: blur(8px);
+}
+
+/* CTA button styles */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--maroon);
+  color: var(--parchment);
+  border-radius: 100px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--maroon-deep), var(--maroon));
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(112, 43, 50, 0.3);
+}
+
+.btn-primary:hover::before {
+  opacity: 1;
+}
+
+.btn-primary span {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: transparent;
+  color: var(--maroon);
+  border: 1.5px solid var(--maroon);
+  border-radius: 100px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-secondary:hover {
+  background: var(--maroon);
+  color: var(--parchment);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(112, 43, 50, 0.2);
+}
+
+/* Section heading decorative line */
+.section-heading {
+  position: relative;
+  display: inline-block;
+}
+
+.section-heading::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--maroon));
+  border-radius: 2px;
+}
+
+/* Decorative divider */
+.heritage-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 auto;
+  max-width: 200px;
+}
+
+.heritage-divider::before,
+.heritage-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* Portrait placeholder frame */
+.portrait-frame {
+  position: relative;
+  border: 3px solid var(--gold);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  padding: 6px;
+  background: linear-gradient(135deg, rgba(189, 148, 88, 0.1), rgba(241, 223, 202, 0.5));
+}
+
+/* Mobile menu overlay */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(75, 32, 39, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 100%;
+  background: var(--parchment);
+  z-index: 50;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -8px 0 32px rgba(75, 32, 39, 0.15);
+}
+
+.mobile-menu.active {
+  transform: translateX(0);
+}
+
+/* Tech icon card */
+.tech-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 16px;
+  background: rgba(241, 223, 202, 0.5);
+  border: 1px solid rgba(189, 148, 88, 0.2);
+  border-radius: 12px;
+  transition: all 0.35s ease;
+  cursor: default;
+}
+
+.tech-card:hover {
+  transform: translateY(-4px);
+  background: rgba(241, 223, 202, 0.8);
+  border-color: var(--gold);
+  box-shadow: 0 8px 24px rgba(189, 148, 88, 0.15);
+}
+
+/* Nav link underline animation */
+.nav-link {
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Trophy icon pulse */
+@keyframes trophyPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.trophy-pulse {
+  animation: trophyPulse 3s ease-in-out infinite;
+}
+
+/* Subtle background texture */
+.parchment-texture {
+  background-image: 
+    radial-gradient(ellipse at 20% 50%, rgba(189, 148, 88, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(112, 43, 50, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 80%, rgba(102, 116, 91, 0.04) 0%, transparent 50%);
+}
+
+/* Arch-shaped image mask */
+.arch-mask {
+  border-radius: 50% 50% 4px 4px / 30% 30% 4px 4px;
+  overflow: hidden;
+}
+
+/* Footer wave decoration */
+.footer-wave {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, var(--maroon-deep));
 }
